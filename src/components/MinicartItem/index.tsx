@@ -33,7 +33,7 @@ const MinicartItem: React.FC<Props> = ({
             <ListItem
                 secondaryAction={
                     <IconButton onClick={() => removeFromCart(item.id)} edge="end" aria-label="delete">
-                        <DeleteIcon />
+                        <DeleteIcon color='primary' />
                     </IconButton>
                 }
             >

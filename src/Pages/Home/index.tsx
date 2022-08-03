@@ -15,7 +15,6 @@ const Home: React.FC = () => {
   const [cartItems, setCartItems] = useState<PokeObjType[]>([]);
   const [pokemons, setPokemons] = useState<PokeObjType[]>([]);
 
-  const classes = useStyles()
 
   useEffect(() => {
     getPokemons();
@@ -45,9 +44,9 @@ const Home: React.FC = () => {
             : item
         );
       }
-
       return [...prev, { ...clickedItem, amount: 1 }];
     });
+    setCartOpen(true)
   };
 
   const handleRemoveFromCart = (id: number) => {

@@ -18,12 +18,15 @@ type Props = {
 const Minicart: React.FC<Props> = ({
     cartItems, addToCart, removeFromCart
 }) => {
+    const calculateTotal = (items: PokeObjType[]) =>{
+        return items.reduce((acc, item) => acc + item.amount * item.base_experience, 0);
+    }
     const classes = useStyles()
     return (
         <>
         {cartItems.length === 0 ?
                 <Typography sx={{ margin:'auto'}} >Nenhum pokemon selecionado</Typography>
-                : null}
+                : <Typography variant='h6' textAlign='center'>Total R$ {calculateTotal(cartItems)}</Typography>}
          <Paper sx={{ width: 300 }}>            
             {cartItems.map((item) => (
                 <>

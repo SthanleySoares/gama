@@ -30,7 +30,7 @@ const Header: React.FC<Props> = ({ handleCartOpen, totalItems }) => {
         <Typography variant="h6" color="inherit" component="div">
           Pokeshop
         </Typography>
-        <Badge badgeContent={getTotalItems(totalItems)} color='error'>
+        <Badge badgeContent={getTotalItems(totalItems)} color='primary'>
           <IconButton onClick={() => handleCartOpen()} edge="start" color="inherit" aria-label="menu" sx={{ ml: 2 }}>
             <ShoppingBagIcon />
           </IconButton>

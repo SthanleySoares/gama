@@ -42,7 +42,7 @@ const PokeCard: React.FC<Props> = ({
         <Button
           fullWidth
           onClick={() => handleAddToCart(item)}
-          size="small" variant='outlined'>Adicionar ao carrinho</Button>
+          size="small" variant='outlined'>Adicionar a Pokedex</Button>
       </CardActions>
     </Card>
   )
