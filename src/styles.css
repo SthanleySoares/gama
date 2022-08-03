@@ -1,0 +1,12 @@
+html,body{
+    margin: 0;
+    padding: 0;
+}
+
+.loja{
+    flex-wrap: wrap;
+    display: flex;
+    gap: 48px;
+    margin-top: 40px;
+    justify-content: center;
+}

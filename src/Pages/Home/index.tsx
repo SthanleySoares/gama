@@ -1,48 +1,98 @@
-import React, { useState, useEffect } from 'react';
-import PokeCard from '../../components/Cardmon'
-import API from '../../Service/api';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Grid, Drawer } from '@mui/material';
 
-type PokeObjType = {
-  id: number,
-  sprites: {
-    front_default: string,
-    back_default: string,
-  },
-  name: string,
-  base_experience: number,
-}
+import PokeCard from '../../components/PokeCard';
+import Minicart from '../../components/Minicart';
+import Header from '../../components/Header';
+import api from '../../services/api';
 
-function Home() {
-  const [pokemons, setPokemons] = useState([] as PokeObjType | any) 
+import { PokeObjType, CartItemType } from '../../types';
 
-  const pokemonGet = async () => {
-    for (let i = 1; i <= 20; i++) {
-      try {
-        const response = await API.get(`/${i}`)
-        setPokemons((pokemons: PokeObjType | any) => [...pokemons, response.data]);
-        console.log(response);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  }
+import {useStyles} from './styles'
+
+const Home: React.FC = () => {
+  const [cartOpen, setCartOpen] = useState(false);
+  const [cartItems, setCartItems] = useState<PokeObjType[]>([]);
+  const [pokemons, setPokemons] = useState<PokeObjType[]>([]);
+
+  const classes = useStyles()
 
   useEffect(() => {
-    pokemonGet();
-  }, [])
+    getPokemons();
+  }, []);
+
+  const getPokemons = useCallback(async () => {
+    for (let i = 1; i <= 20; i++) {
+      await api.get(`pokemon/${i}`)
+        .then((response) => {
+          setPokemons((prev) => [...prev, response.data]);
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log('Algo deu errado', error);
+        })
+    }
+  }, []);
+
+  const handleAddToCart = (clickedItem: PokeObjType) => {
+    setCartItems((prev) => {
+      const isItemInCart = prev.find((item) => item.id === clickedItem.id);
+
+      if (isItemInCart) {
+        return prev.map((item) =>
+          item.id === clickedItem.id
+            ? { ...item, amount: item.amount + 1 }
+            : item
+        );
+      }
+
+      return [...prev, { ...clickedItem, amount: 1 }];
+    });
+  };
+
+  const handleRemoveFromCart = (id: number) => {
+    setCartItems((prev) =>
+      prev.reduce((acc, item) => {
+        if (item.id === id) {
+          if (item.amount === 1) return acc;
+          return [...acc, { ...item, amount: item.amount - 1 }];
+        } else {
+          return [...acc, item];
+        }
+      }, [] as PokeObjType[])
+    );
+  };
+
+  const handleCartOpen = () => {
+    setCartOpen(true);
+  }
 
   return (
-    pokemons.length > 0 && pokemons.map(
-      (pokemon: PokeObjType, i: number) => (
-        <PokeCard
-          base_experience={pokemon.base_experience}
-          name={pokemon.name}
-          id={pokemon.id}
-          key={i}
-          sprites={pokemon.sprites}
+    <>
+      <Header
+        handleCartOpen={handleCartOpen}
+        totalItems={cartItems}
+      />
+      <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)}>
+        <Minicart
+          cartItems={cartItems}
+          addToCart={handleAddToCart}
+          removeFromCart={handleRemoveFromCart}
         />
-      )
-    )
+      </Drawer>
+      <div className='loja'>
+      {pokemons?.map(
+        (pokemon, i: number) => (
+          <Grid item key={pokemon.id} xs={12} sm={4}>
+            <PokeCard
+              item={pokemon}
+              handleAddToCart={handleAddToCart}
+            />
+          </Grid>
+        )
+      )}
+      </div>
+    </>
   );
 }
 
