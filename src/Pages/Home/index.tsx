@@ -6,9 +6,7 @@ import Minicart from '../../components/Minicart';
 import Header from '../../components/Header';
 import api from '../../services/api';
 
-import { PokeObjType, CartItemType } from '../../types';
-
-import {useStyles} from './styles'
+import { PokeObjType } from '../../types';
 
 const Home: React.FC = () => {
   const [cartOpen, setCartOpen] = useState(false);
@@ -75,7 +73,6 @@ const Home: React.FC = () => {
       <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)}>
         <Minicart
           cartItems={cartItems}
-          addToCart={handleAddToCart}
           removeFromCart={handleRemoveFromCart}
         />
       </Drawer>

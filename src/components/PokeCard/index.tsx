@@ -35,7 +35,7 @@ const PokeCard: React.FC<Props> = ({
           {item.name}
         </Typography>
         <Typography variant="subtitle1" color="text.primary">
-          {'R$' + item.base_experience + ',99'}
+          {'R$' + item.base_experience + ',00'}
         </Typography>
       </CardContent>
       <CardActions>

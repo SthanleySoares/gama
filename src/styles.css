@@ -11,3 +11,10 @@ html,body{
     margin: 40px 0;
     justify-content: center;
 }
+
+.miniCart{
+    display: flex;
+    height: 100%;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+}

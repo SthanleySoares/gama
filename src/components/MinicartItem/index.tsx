@@ -10,17 +10,16 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { CartItemType, PokeObjType } from '../../types';
+import { PokeObjType } from '../../types';
 import { useStyles } from './styles'
 
 type Props = {
     item: PokeObjType;
-    addToCart: (clickedItem: PokeObjType) => void;
     removeFromCart: (id: number) => void;
 };
 
 const MinicartItem: React.FC<Props> = ({
-    item, addToCart, removeFromCart }) => {
+    item, removeFromCart }) => {
     const classes = useStyles()
     return (
         <List
@@ -42,7 +41,8 @@ const MinicartItem: React.FC<Props> = ({
                         width: '100%', height: '100%',
                     }} src={item.sprites.front_default} />
                 </ListItemAvatar>
-                <ListItemText sx={{marginLeft: '8px'}} className={classes.name} primary={item.name} secondary={'R$' + item.base_experience + ',99'} />
+                <ListItemText sx={{marginLeft: '8px'}} className={classes.name} primary={item.name} secondary={'R$' + item.base_experience } />
+                <ListItemText sx={{marginLeft: '8px'}} className={classes.name} primary={item.amount} />
             </ListItem>
 
         </List>
